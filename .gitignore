@@ -11,3 +11,4 @@ log/nginx/*
 log/traefik/*
 www/*
 !www/html
+!.gitkeep
