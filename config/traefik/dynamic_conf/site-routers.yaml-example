@@ -1,0 +1,16 @@
+# http:
+#   routers:
+#     example-unsecured:
+#       entryPoints:
+#         - unsecured
+#       rule: 'Host(`example`)' # Second domain use '||'
+#       service: nginx
+#       middlewares:
+#         - redirectToSecured
+#     example-secured:
+#       entryPoints:
+#         - secured
+#       rule: 'Host(`example`)'
+#       service: nginx
+#       tls:
+#         certResolver: staging # staging | production

@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    server_name hostname;
+
+    root /var/www/hostname/public;
+
+    include includes/common.conf;
+
+    include includes/default.conf;
+    #include includes/laravel.conf;
+    #include includes/wordpress.conf;
+}

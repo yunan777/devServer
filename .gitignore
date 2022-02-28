@@ -1,0 +1,13 @@
+/.env
+config/nginx/sites-available/*.site.conf
+config/portainer/password
+config/traefik/password
+config/traefik/acme.json
+config/traefik/dynamic_conf/site-routers.conf
+database/mysql/*
+database/portainer/*
+database/redis/*
+log/nginx/*
+log/traefik/*
+www/*
+!www/html

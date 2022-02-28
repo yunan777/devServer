@@ -1,0 +1,14 @@
+http:
+  services:
+    nginx:
+      loadBalancer:
+        servers:
+          - url: 'http://nginx:80'
+    portainer:
+      loadBalancer:
+        servers:
+          - url: 'http://potainer:9000'
+    adminer:
+      loadBalancer:
+        servers:
+          - url: 'http://adminer:8080'
