@@ -1,5 +1,5 @@
 /.env
-config/nginx/sites-available/*.site.conf
+config/nginx/sites-available/*.conf
 config/portainer/password
 config/traefik/password
 config/traefik/acme.json
