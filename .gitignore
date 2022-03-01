@@ -3,7 +3,7 @@ config/nginx/sites-available/*.conf
 config/portainer/password
 config/traefik/password
 config/traefik/acme.json
-config/traefik/dynamic_conf/site-routers.conf
+config/traefik/dynamic_conf/site-routers.yaml
 database/mysql/*
 database/portainer/*
 database/redis/*
