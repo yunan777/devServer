@@ -7,7 +7,7 @@ http:
     portainer:
       loadBalancer:
         servers:
-          - url: 'http://potainer:9000'
+          - url: 'http://portainer:9000'
     adminer:
       loadBalancer:
         servers:
