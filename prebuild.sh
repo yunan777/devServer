@@ -14,6 +14,8 @@ chmod 600 ./config/portainer/password
 
 touch ./config/traefik/acme.json && chmod 600 ./config/traefik/acme.json
 
-docker-compose build nginx php8.0-fpm mysql traefik redis workspace portainer adminer
+docker-compose build php8.0-fpm workspace
+
+docker-compose pull nginx mysql traefik redis portainer adminer
 
 echo -e "Complete.\nRun 'docker-compose up' to start service.\nRun 'docker-compose run workspace bash' to get in develop environment."

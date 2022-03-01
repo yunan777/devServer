@@ -1,8 +1,7 @@
 server {
-    listen 80;
-    server_name hostname;
+    server_name domain;
 
-    root /var/www/hostname/public;
+    root /var/www/domain/public;
 
     include includes/common.conf;
 

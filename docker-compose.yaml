@@ -74,7 +74,7 @@ services:
 
   ### Portainer ############################################
   portainer:
-    image: 'portainer:alpine'
+    image: 'portainer/portainer-ce:alpine'
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
       - './database/portainer:/data'
