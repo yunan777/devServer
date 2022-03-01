@@ -3,16 +3,16 @@ http:
     traefik-dashboard-secured:
       entryPoints:
         - secured
-      rule: 'Host(`${PORTAINER_DOMAIN}`)'
+      rule: 'Host(`{{ env "TRAEFIK_DASHBORD_DOMAIN" }}`)'
       service: api@internal
       middlewares:
         - traefik-dashbord-auth
       tls:
-        certResolver: ${DEFAULT_CERT_RESOLVER}
+        certResolver: '{{ env "DEFAULT_CERT_RESOLVER" }}'
     traefik-dashbord-unsecured:
       entryPoints:
         - unsecured
-      rule: 'Host(`${PORTAINER_DOMAIN}`)'
+      rule: 'Host(`{{ env "TRAEFIK_DASHBORD_DOMAIN" }}`)'
       service: api@internal
       middlewares:
         - redirectToSecured
@@ -20,14 +20,14 @@ http:
     portainer-secured:
       entryPoints:
         - secured
-      rule: 'Host(`${PORTAINER_DOMAIN}`)'
+      rule: 'Host(`{{ env "PORTAINER_DOMAIN" }}`)'
       service: portainer
       tls:
-        certResolver: ${DEFAULT_CERT_RESOLVER}
+        certResolver: '{{ env "DEFAULT_CERT_RESOLVER" }}'
     portainer-unsecured:
       entryPoints:
         - unsecured
-      rule: 'Host(`${PORTAINER_DOMAIN}`)'
+      rule: 'Host(`{{ env "PORTAINER_DOMAIN" }}`)'
       service: portainer
       middlewares:
         - redirectToSecured
@@ -35,14 +35,14 @@ http:
     adminer-secured:
       entryPoints:
         - secured
-      rule: 'Host(`${ADMINER_DOMAIN}`)'
+      rule: 'Host(`{{ env "ADMINER_DOMAIN" }}`)'
       service: adminer
       tls:
-        certResolver: ${DEFAULT_CERT_RESOLVER}
+        certResolver: '{{ env "DEFAULT_CERT_RESOLVER" }}'
     adminer-unsecured:
       entryPoints:
         - unsecured
-      rule: 'Host(`${ADMINER_DOMAIN}`)'
+      rule: 'Host(`{{ env "ADMINER_DOMAIN" }}`)'
       service: adminer
       middlewares:
         - redirectToSecured
