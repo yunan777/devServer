@@ -6,10 +6,8 @@ case $1 in
 "build")
     source .env
 
-    docker run --rm httpd:2.4-alpine htpasswd -nbB ${TRAEFIK_DASHBORD_USER} ${TRAEFIK_DASHBORD_PSWD} > ./config/traefik/password
-    chmod 600 ./config/traefik/password
-    echo -n "${PORTAINER_PSWD}" > ./config/portainer/password
-    chmod 600 ./config/portainer/password
+    echo "${TRAEFIK_DASHBORD_USER}:traefik:$(echo "${TRAEFIK_DASHBORD_USER}:traefik:${TRAEFIK_DASHBORD_PSWD}" | md5sum | awk '{print $1}')" > ./config/traefik/password && chmod 600 ./config/traefik/password
+    echo -n "${PORTAINER_PSWD}" > ./config/portainer/password && chmod 600 ./config/portainer/password
 
     touch ./config/traefik/acme_staging.json && chmod 600 ./config/traefik/acme_staging.json
     touch ./config/traefik/acme_production.json && chmod 600 ./config/traefik/acme_production.json
@@ -27,6 +25,6 @@ case $1 in
     docker-compose down
 ;;
 *)
-    echo "Usage: ./run [build|start|dev|stop]"
+    echo "Usage: ./server [build|start|dev|stop]"
 ;;
 esac

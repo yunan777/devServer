@@ -13,6 +13,6 @@ http:
         permanent: true
 
     traefik-dashbord-auth:
-      basicAuth:
+      digestAuth:
         usersFile: '/etc/traefik/password'
         removeHeader: true
