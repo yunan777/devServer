@@ -59,7 +59,7 @@ services:
       - 'TRAEFIK_CERTIFICATESRESOLVERS_production_ACME_STORAGE=/etc/traefik/acme_production.json'
       - 'TRAEFIK_CERTIFICATESRESOLVERS_production_ACME_CASERVER=https://acme-v02.api.letsencrypt.org/directory'
       - 'TRAEFIK_CERTIFICATESRESOLVERS_production_ACME_HTTPCHALLENGE=true'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_production_ACME_HTTPCHALLENGE_ENTRYPOINT=secured'
+      - 'TRAEFIK_CERTIFICATESRESOLVERS_production_ACME_HTTPCHALLENGE_ENTRYPOINT=unsecured'
       - 'TRAEFIK_PROVIDERS_FILE_DIRECTORY=/etc/traefik/dynamic_conf'
       - 'TRAEFIK_PROVIDERS_FILE_WATCH=true'
       - 'DEFAULT_CERT_RESOLVER=${DEFAULT_CERT_RESOLVER}'
