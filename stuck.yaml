@@ -80,6 +80,7 @@ services:
     build: './build/workspace'
     volumes:
       - './www:/var/www'
+      - './config/php-fpm/8.0/custom.ini:/usr/local/etc/php/conf.d/custom.ini'
     profiles:
       - workspace
 
