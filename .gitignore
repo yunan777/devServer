@@ -4,11 +4,7 @@ config/portainer/password
 config/traefik/password
 config/traefik/acme.json
 config/traefik/dynamic_conf/site-routers.yaml
-database/mysql/*
-database/portainer/*
-database/redis/*
-log/nginx/*
-log/traefik/*
-www/*
-!www/html
+/database
+/log
+/www
 !.gitkeep

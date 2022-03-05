@@ -12,24 +12,11 @@ services:
       - './log/nginx/:/var/log/nginx'
 
   ### PHP-FPM ############################################
-  # php7.4-fpm:
-  #   build: './build/php-fpm/7.4'
-  #   volumes:
-  #     - './www:/var/www'
-  #   profiles:
-  #     - php7.4
-
   php8.0-fpm:
     build: './build/php-fpm/8.0'
     volumes:
       - './www:/var/www'
-
-  # php8.1-fpm:
-  #   build: './build/php-fpm/8.1'
-  #   volumes:
-  #     - './www:/var/www'
-  #   profiles:
-  #     - php8.1
+      - './config/php-fpm/8.0/custom.ini:/usr/local/etc/php/conf.d/custom.ini'
 
   ### MySQL ############################################
   mysql:
