@@ -20,6 +20,9 @@ case $1 in
     mkdir -p ./data/mysql ./data/caddy/data ./data/caddy/config ./data/redis ./log/nginx ./log/caddy
     docker-compose -f $compose_file build php-fpm workspace
     docker-compose -f $compose_file pull nginx mysql caddy redis
+    docker-compose -f $compose_file up -d mysql
+    docker-compose -f $compose_file logs mysql | grep "PASSWORD"
+    docker-compose -f $compose_file down mysql
 ;;
 "start")
     start
