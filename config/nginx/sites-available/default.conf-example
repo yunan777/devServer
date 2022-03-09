@@ -3,9 +3,7 @@ server {
 
     root /var/www/domain/public;
 
-    include includes/common.conf;
-
-    include includes/default.conf;
-    #include includes/laravel.conf;
-    #include includes/wordpress.conf;
+    include presets/common.conf;
+    #include presets/laravel.conf;
+    #include presets/wordpress.conf;
 }

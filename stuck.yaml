@@ -1,99 +1,62 @@
-version: '3'
+version: '3.8'
 
 services:
-  ### Nginx ############################################
   nginx:
-    image: 'nginx:alpine'
+    image: 'nginx:stable'
     volumes:
       - './www:/var/www'
       - './config/nginx/nginx.conf:/etc/nginx/nginx.conf'
       - './config/nginx/sites-available:/etc/nginx/sites-available'
-      - './config/nginx/includes:/etc/nginx/includes'
+      - './config/nginx/presets:/etc/nginx/presets'
+      - './config/nginx/snippets:/etc/nginx/snippets'
       - './log/nginx/:/var/log/nginx'
 
-  ### PHP-FPM ############################################
-  php8.0-fpm:
-    build: './build/php-fpm/8.0'
+  php-fpm:
+    build: './build/php-fpm'
     volumes:
       - './www:/var/www'
-      - './config/php-fpm/8.0/custom.ini:/usr/local/etc/php/conf.d/custom.ini'
+      - './config/php-fpm/custom.ini:/usr/local/etc/php/conf.d/custom.ini'
 
-  ### MySQL ############################################
   mysql:
     image: 'mysql:8.0'
     volumes:
-      - './database/mysql:/var/lib/mysql'
+      - './data/mysql:/var/lib/mysql'
       - './config/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf'
     environment:
-      - 'MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}'
+      - 'MYSQL_RANDOM_ROOT_PASSWORD=yes'
 
-  ### traefik ############################################
-  traefik:
-    image: 'traefik:2.6'
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - './config/traefik:/etc/traefik'
-      - './log/traefik:/var/log/traefik'
-    environment:
-      - 'TRAEFIK_GLOBAL_CHECKNEWVERSION=${TRAEFIK_CHECKNEWVERSION}'
-      - 'TRAEFIK_GLOBAL_SENDANONYMOUSUSAGE=false'
-      - 'TRAEFIK_LOG=true'
-      - 'TRAEFIK_LOG_FILEPATH=/var/log/traefik/traefik.log'
-      - 'TRAEFIK_LOG_LEVEL=ERROR'
-      - 'TRAEFIK_API=true'
-      - 'TRAEFIK_API_DASHBOARD=true'
-      - 'TRAEFIK_ENTRYPOINTS_unsecured=true'
-      - 'TRAEFIK_ENTRYPOINTS_unsecured_ADDRESS=:80'
-      - 'TRAEFIK_ENTRYPOINTS_secured=true'
-      - 'TRAEFIK_ENTRYPOINTS_secured_ADDRESS=:443'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_staging=true'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_staging_ACME_EMAIL=${ACME_EMAIL}'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_staging_ACME_STORAGE=/etc/traefik/acme_staging.json'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_staging_ACME_CASERVER=https://acme-staging-v02.api.letsencrypt.org/directory'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_staging_ACME_HTTPCHALLENGE=true'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_staging_ACME_HTTPCHALLENGE_ENTRYPOINT=unsecured'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_production=true'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_production_ACME_EMAIL=${ACME_EMAIL}'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_production_ACME_STORAGE=/etc/traefik/acme_production.json'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_production_ACME_CASERVER=https://acme-v02.api.letsencrypt.org/directory'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_production_ACME_HTTPCHALLENGE=true'
-      - 'TRAEFIK_CERTIFICATESRESOLVERS_production_ACME_HTTPCHALLENGE_ENTRYPOINT=unsecured'
-      - 'TRAEFIK_PROVIDERS_FILE_DIRECTORY=/etc/traefik/dynamic_conf'
-      - 'TRAEFIK_PROVIDERS_FILE_WATCH=true'
-      - 'DEFAULT_CERT_RESOLVER=${DEFAULT_CERT_RESOLVER}'
-      - 'TRAEFIK_DASHBORD_DOMAIN=${TRAEFIK_DASHBORD_DOMAIN}'
-      - 'PORTAINER_DOMAIN=${PORTAINER_DOMAIN}'
-      - 'ADMINER_DOMAIN=${ADMINER_DOMAIN}'
-
-  ### redis ############################################
   redis:
-    image: 'redis:6.2-alpine'
+    image: 'redis:6.2'
     volumes:
-      - './database/redis:/data'
+      - './data/redis:/data'
       - './config/redis/redis.conf:/usr/local/etc/redis/redis.conf'
     command: 'redis-server /usr/local/etc/redis/redis.conf'
 
-  ### workspace ############################################
   workspace:
     build: './build/workspace'
     volumes:
       - './www:/var/www'
-      - './config/php-fpm/8.0/custom.ini:/usr/local/etc/php/conf.d/custom.ini'
+      - './config/php-fpm/custom.ini:/usr/local/etc/php/conf.d/custom.ini'
     profiles:
       - workspace
 
-  ### Portainer ############################################
-  portainer:
-    image: 'portainer/portainer-ce:alpine'
+  caddy:
+    image: 'caddy:latest'
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - './database/portainer:/data'
-      - './config/portainer/password:/tmp/portainer_password'
-    command: '--admin-password-file /tmp/portainer_password'
+      - './config/caddy/Caddyfile:/etc/caddy/Caddyfile'
+      - './data/caddy/data:/data'
+      - './data/caddy/config:/config'
+      - './config/caddy/snippets:/etc/caddy/snippets'
+      - './config/caddy/sites-proxied:/etc/caddy/sites-proxied'
+      - './config/caddy/modes:/etc/caddy/modes'
+    ports:
+      - '80:80'
+      - '443:443'
+      - '33060:33060'
+    environment:
+      - 'ACME_EMAIL=${ACME_EMAIL}'
+      - 'DEPLOY_MODE=${DEPLOY_MODE}'
 
-  ### Adminer ############################################
   adminer:
     image: 'adminer:standalone'
     environment:

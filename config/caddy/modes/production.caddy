@@ -1,0 +1,14 @@
+{
+	# Admin API endpoint:
+	admin off
+
+	# Logging config:
+	log {
+		output file /var/log/caddy/error.log
+		format console
+		level ERROR
+	}
+
+	# TLS Options:
+	email {$ACME_EMAIL}
+}

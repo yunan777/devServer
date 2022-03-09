@@ -1,0 +1,8 @@
+import modes/{$DEPLOY_MODE}.caddy
+
+import snippets/*.caddy
+import sites-proxied/*.caddy
+
+localhost:33060 {
+    reverse_proxy http://adminer:8080
+}

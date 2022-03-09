@@ -6,10 +6,6 @@ compose_file="./stuck.yaml"
 
 function start() 
 {
-    source .env
-    echo -n "${TRAEFIK_DASHBORD_USER}:traefik:$(echo -n "${TRAEFIK_DASHBORD_USER}:traefik:${TRAEFIK_DASHBORD_PSWD}" | md5sum | awk '{print $1}')" > ./config/traefik/password
-    echo -n "${PORTAINER_PSWD}" > ./config/portainer/password
-    chmod 600 ./config/traefik/password ./config/portainer/password
     docker-compose -f $compose_file up -d
 }
 
@@ -18,22 +14,12 @@ function stop()
     docker-compose -f $compose_file down
 }
 
-function try_mkdir()
-{
-    for dir_path in $*
-    do
-        if [ ! -d $dir_path ]; then mkdir -p $dir_path; fi
-    done
-}
-
 case $1 in
 "build")
-    try_mkdir ./www && chgrp 33 ./www && chmod g+s ./www
-    try_mkdir ./www/html ./database/mysql ./database/portainer ./database/redis ./log/nginx ./log/traefik
-    touch ./www/html/do_not_delete ./config/traefik/acme_staging.json ./config/traefik/acme_production.json
-    chmod 600 ./config/traefik/acme_staging.json ./config/traefik/acme_production.json
-    docker-compose -f $compose_file build php8.0-fpm workspace
-    docker-compose -f $compose_file pull nginx mysql traefik redis portainer adminer
+    mkdir -p ./www && chgrp 33 ./www && chmod g+s ./www && mkdir -p ./www/html && touch ./www/html/do_not_delete
+    mkdir -p ./data/mysql ./data/caddy/data ./data/caddy/config ./data/redis ./log/nginx ./log/caddy
+    docker-compose -f $compose_file build php-fpm workspace
+    docker-compose -f $compose_file pull nginx mysql caddy redis
 ;;
 "start")
     start
