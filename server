@@ -19,7 +19,7 @@ case $1 in
     mkdir -p ./www && chgrp 33 ./www && chmod g+s ./www && mkdir -p ./www/html && touch ./www/html/do_not_delete
     mkdir -p ./data/mysql ./data/caddy/data ./data/caddy/config ./data/redis ./log/nginx ./log/caddy
     docker-compose -f $compose_file build php-fpm workspace
-    docker-compose -f $compose_file pull nginx mysql caddy redis
+    docker-compose -f $compose_file pull nginx mysql caddy redis adminer
 ;;
 "start")
     start
