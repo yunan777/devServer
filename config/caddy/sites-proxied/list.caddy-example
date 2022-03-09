@@ -1,6 +1,6 @@
 # Add .local at end to prevent requesting public trusted certificate.
 
 domain(.local) {
-    reverse_proxy http://nginx:80
     #import auto_append_www
+    reverse_proxy http://nginx:80
 }

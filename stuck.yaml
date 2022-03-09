@@ -24,6 +24,8 @@ services:
       - './config/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf'
     environment:
       - 'MYSQL_RANDOM_ROOT_PASSWORD=yes'
+    ports:
+      - '3306:3306'
 
   redis:
     image: 'redis:6.2'
@@ -49,15 +51,10 @@ services:
       - './config/caddy/snippets:/etc/caddy/snippets'
       - './config/caddy/sites-proxied:/etc/caddy/sites-proxied'
       - './config/caddy/modes:/etc/caddy/modes'
+      - './log/caddy:/var/log/caddy'
     ports:
       - '80:80'
       - '443:443'
-      - '33060:33060'
     environment:
       - 'ACME_EMAIL=${ACME_EMAIL}'
       - 'DEPLOY_MODE=${DEPLOY_MODE}'
-
-  adminer:
-    image: 'adminer:standalone'
-    environment:
-      - 'ADMINER_DESIGN=pepa-linha'

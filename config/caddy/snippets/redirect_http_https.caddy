@@ -1,6 +1,0 @@
-(redirect_http_https) {
-    @http_request {
-        protocol http
-    }
-    redir @http_request https://{host}{uri} permanent
-}

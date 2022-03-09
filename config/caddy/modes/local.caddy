@@ -6,7 +6,7 @@
 	log {
 		output file /var/log/caddy/error.log
 		format console
-		level ERROR
+		level INFO
 	}
 
     local_certs
