@@ -1,6 +1,6 @@
 FROM caddy:builder AS builder
 
-ENV GOPROXY=https://mirrors.aliyun.com/goproxy/
+ARG GOPROXY=direct
 
 RUN xcaddy build --with github.com/caddy-dns/alidns
 

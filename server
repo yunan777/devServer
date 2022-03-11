@@ -42,7 +42,11 @@ case $1 in
     docker-compose -f $compose_file exec nginx service nginx reload
     docker-compose -f $compose_file exec -w /etc/caddy caddy caddy reload
 ;;
+"backup")
+    dir_name=$(basename $PWD)
+    cd .. && mkdir -p "${dir_name}_backup" && tar -czf "${dir_name}_backup/$(date --rfc-3339 seconds).tar.gz" "${dir_name}"
+;;
 *)
-    echo "Usage: ./server [build|start|dev|stop|restart|reload]"
+    echo "Usage: ./server [build|start|dev|stop|restart|reload|backup]"
 ;;
 esac

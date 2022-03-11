@@ -3,5 +3,11 @@
 yourdomain(.local) {
 	#import prefix_www_at yourdomain(.local)
 	#import gzip_encode
+	#tls {
+		#dns alidns {
+			#access_key_id key_id
+			#access_key_secret key_secret
+		#}
+	#}
 	reverse_proxy http://nginx:80
 }

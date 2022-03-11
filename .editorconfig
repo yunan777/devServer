@@ -1,6 +1,6 @@
 root = true
 
-[.{env,sh}]
+[{*.env,*.sh,*.env-example,server}]
 end_of_line = lf
 insert_final_newline = true
 

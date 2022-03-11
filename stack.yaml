@@ -43,7 +43,10 @@ services:
       - workspace
 
   caddy:
-    build: './build/caddy'
+    build:
+      context: './build/caddy'
+      args:
+        - 'GOPROXY=${GO_MODULE_MIRROR}'
     volumes:
       - './config/caddy/Caddyfile:/etc/caddy/Caddyfile'
       - './data/caddy/data:/data'
