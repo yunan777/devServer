@@ -44,7 +44,7 @@ case $1 in
 ;;
 "backup")
     dir_name=$(basename $PWD)
-    cd .. && mkdir -p "${dir_name}_backup" && tar -czf "${dir_name}_backup/$(date --rfc-3339 seconds).tar.gz" "${dir_name}"
+    cd .. && mkdir -p "${dir_name}_backup" && tar -czf "${dir_name}_backup/$(date +"%Y%m%d-%H:%M:%S").tar.gz" "${dir_name}"
 ;;
 *)
     echo "Usage: ./server [build|start|dev|stop|restart|reload|backup]"
