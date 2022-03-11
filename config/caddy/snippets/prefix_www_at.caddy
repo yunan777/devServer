@@ -1,0 +1,6 @@
+(prefix_www_at) {
+	@non_www_host {
+		header Host {args.0}
+	}
+	redir @non_www_host {scheme}://www.{host}{uri} permanent
+}

@@ -43,7 +43,7 @@ services:
       - workspace
 
   caddy:
-    image: 'caddy:latest'
+    build: './build/caddy'
     volumes:
       - './config/caddy/Caddyfile:/etc/caddy/Caddyfile'
       - './data/caddy/data:/data'

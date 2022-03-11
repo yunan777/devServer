@@ -2,7 +2,7 @@
 
 cd "$(dirname $0)"
 
-compose_file="./stuck.yaml"
+compose_file="./stack.yaml"
 
 function start() 
 {
@@ -18,11 +18,11 @@ case $1 in
 "build")
     mkdir -p ./www && chgrp 33 ./www && chmod g+s ./www && mkdir -p ./www/html && touch ./www/html/do_not_delete
     mkdir -p ./data/mysql ./data/caddy/data ./data/caddy/config ./data/redis ./log/nginx ./log/caddy
-    docker-compose -f $compose_file build php-fpm workspace
-    docker-compose -f $compose_file pull nginx mysql caddy redis
-    docker-compose -f $compose_file up -d mysql
+    docker-compose -f $compose_file build caddy php-fpm workspace
+    docker-compose -f $compose_file pull nginx mysql redis
+    docker-compose -f $compose_file up mysql
     docker-compose -f $compose_file logs mysql | grep "PASSWORD"
-    docker-compose -f $compose_file down mysql
+    docker-compose -f $compose_file rm -f mysql
 ;;
 "start")
     start
@@ -37,7 +37,12 @@ case $1 in
     stop
     start
 ;;
+"reload")
+    docker-compose -f $compose_file exec php-fpm bash -c "kill -USR2 1"
+    docker-compose -f $compose_file exec nginx service nginx reload
+    docker-compose -f $compose_file exec -w /etc/caddy caddy caddy reload
+;;
 *)
-    echo "Usage: ./server [build|start|dev|stop|restart]"
+    echo "Usage: ./server [build|start|dev|stop|restart|reload]"
 ;;
 esac

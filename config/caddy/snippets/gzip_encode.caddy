@@ -1,0 +1,3 @@
+(gzip_encode) {
+	encode gzip
+}

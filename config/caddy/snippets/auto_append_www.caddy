@@ -1,6 +1,0 @@
-(auto_append_www) {
-    @non_www_host {
-        not header_regexp Host ^www(?:\.[\w-]+){2,}$
-    }
-    redir @non_www_host {scheme}://www.{host}{uri} permanent
-}

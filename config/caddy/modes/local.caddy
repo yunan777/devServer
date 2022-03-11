@@ -1,13 +1,9 @@
 {
-	# Admin API endpoint:
-	admin off
-
-	# Logging config:
 	log {
 		output file /var/log/caddy/error.log
 		format console
 		level INFO
 	}
 
-    local_certs
+	local_certs
 }

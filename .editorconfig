@@ -1,9 +1,9 @@
 root = true
 
-[.env]
+[.{env,sh}]
 end_of_line = lf
 insert_final_newline = true
 
-[*.sh]
-end_of_line = lf
+[{*.caddy,*.caddy-example,Caddyfile}]
 insert_final_newline = true
+indent_style = tab
